@@ -4,5 +4,6 @@ export interface PhotoItem { src: string; frame: [number, number, number, number
 export interface RuleItem { x: number; y: number; w?: number; h?: number; color: string; }
 export interface PageData { page: number; bg: string; photos: PhotoItem[]; texts: TextItem[]; rules: RuleItem[]; }
 export interface DecorItem { type: 'asterisk' | 'arrow'; cx: number; cy: number; s: number; color: string; }
-export interface LinkItem { match: string; to: string; }
-export interface SectionItem { id: string; pages: number[]; }
+export interface LinkItem { match: string; to: string; title?: boolean; } // title = il testo stesso (anche grande, in alto) diventa il link
+export interface NavItem { label: string; href: string; }
+export interface SectionItem { id: string; pages: number[]; parent?: string; } // parent = vista da cui si arriva (per il pulsante Indietro)
