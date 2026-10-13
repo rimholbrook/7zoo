@@ -20,7 +20,7 @@ const useMobile = () => {
 function Canvas({ page, n }: { page: PageData; n: number }) {
   const donation = page.texts.filter(isDonation);
   const links = (LINKS[n] || []).map((l) => {
-    const t = page.texts.find((t) => (l.title ? plain(t).includes(l.match) : t.size < 0.03 && t.y > 0.2 && plain(t).includes(l.match) && plain(t).length < 40));
+    const t = page.texts.find((t) => (l.title ? plain(t).includes(l.match) : t.size < 0.04 && t.y > 0.2 && plain(t).includes(l.match) && plain(t).length < 40));
     return t && { ...l, t };
   }).filter((l): l is NonNullable<typeof l> => Boolean(l));
   return (
