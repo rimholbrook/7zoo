@@ -3,37 +3,41 @@
 export const PAGE_W = 595.5; // dimensioni pagina PDF (pt), usate per le proporzioni
 export const PAGE_H = 842.25;
 
-// pages = numeri di pagina del PDF (1-26). Il primo elemento di ogni sezione riceve l'id per l'ancora.
-import type { DecorItem, LinkItem, SectionItem } from '../types';
+// Ogni sezione è una "vista": si vede solo quando la si apre (hash #id). pages = numeri di pagina del PDF (1-26).
+// La Home mostra solo la pagina nera "Associazione Seven Zoo" + le due pagine collage.
+// parent = vista da cui si arriva: serve al pulsante "Indietro" e a evidenziare la voce attiva nella sidebar.
+import type { DecorItem, LinkItem, NavItem, SectionItem } from '../types';
+
+export const HOME_ID = 'home';
 
 export const SECTIONS: SectionItem[] = [
-  { id: 'home', pages: [1] },
-  { id: 'collage', pages: [24, 25] },
-  { id: 'chi-siamo', pages: [2] },
-  { id: 'agenda', pages: [3] },
-  { id: 'anima-delle-popolari', pages: [4, 5] },
-  { id: 'forza-della-seven', pages: [6] },
-  { id: 'ispirazione', pages: [7, 8] },
-  { id: 'progetti', pages: [9] },
-  { id: 'casa', pages: [10] },
-  { id: 'aiuto-allo-studio', pages: [11] },
-  { id: 'progetto-patenti', pages: [12] },
-  { id: 'musica-come-espressione', pages: [13] },
-  { id: 'rap', pages: [14] },
-  { id: 'supporto-famiglie', pages: [15] },
-  { id: 'sport', pages: [16, 17, 18] },
-  { id: 'storie-degli-altri', pages: [19] },
-  { id: 'cura-degli-spazi', pages: [20, 21, 22, 23] },
-  { id: 'contact', pages: [26] },
+  { id: 'home', pages: [1, 24, 25] },
+  { id: 'chi-siamo', pages: [2], parent: 'home' }, // la squadra
+  { id: 'agenda', pages: [3], parent: 'home' },
+  { id: 'anima-delle-popolari', pages: [4, 5], parent: 'agenda' },
+  { id: 'forza-della-seven', pages: [6, 7, 8], parent: 'agenda' }, // include "L'ispirazione"
+  { id: 'progetti', pages: [9], parent: 'agenda' },
+  { id: 'casa', pages: [10], parent: 'progetti' },
+  { id: 'aiuto-allo-studio', pages: [11], parent: 'progetti' },
+  { id: 'progetto-patenti', pages: [12], parent: 'progetti' },
+  { id: 'musica-come-espressione', pages: [13], parent: 'progetti' }, // Think Unlimited
+  { id: 'rap', pages: [14], parent: 'musica-come-espressione' },
+  { id: 'supporto-famiglie', pages: [15], parent: 'progetti' },
+  { id: 'sport', pages: [16, 17, 18], parent: 'progetti' }, // sport + Inter/Nike/Milan + tornei
+  { id: 'storie-degli-altri', pages: [19], parent: 'progetti' },
+  { id: 'collaborazioni', pages: [20, 21, 22, 23], parent: 'progetti' },
+  { id: 'contact', pages: [26], parent: 'home' }, // pagina "Grazie"
 ];
 
-export const NAV = [
+// Voci della sidebar (icona in alto a sinistra).
+export const NAV: NavItem[] = [
   { label: 'Home', href: '#home' },
   { label: 'Chi siamo', href: '#chi-siamo' },
+  { label: 'La nostra agenda', href: '#agenda' },
   { label: 'Contact Us', href: '#contact' },
 ];
 
-// Righe cliccabili di Agenda (pagina 3) e indice progetti (pagina 9).
+// Righe cliccabili di Agenda (pagina 3), indice progetti (pagina 9) e titolo Think Unlimited (pagina 13).
 // match = testo contenuto nel blocco della riga; to = id sezione.
 export const LINKS: Record<number, LinkItem[]> = {
   3: [
@@ -49,8 +53,9 @@ export const LINKS: Record<number, LinkItem[]> = {
     { match: 'SUPPORTO ALLE FAMIGLIE', to: 'supporto-famiglie' },
     { match: 'CRESCERE ATTRAVERSO', to: 'sport' },
     { match: 'STORIE DEGLI ALTRI', to: 'storie-degli-altri' },
-    { match: 'COLLABORAZIONI', to: 'cura-degli-spazi' },
+    { match: 'COLLABORAZIONI', to: 'collaborazioni' },
   ],
+  13: [{ match: 'THINK UNLIMITED', to: 'rap', title: true }],
 };
 
 // Elementi vettoriali del PDF non presenti come immagini (coordinate: centro, in frazioni della larghezza pagina).
