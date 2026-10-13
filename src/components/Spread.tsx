@@ -20,7 +20,7 @@ const useMobile = () => {
 function Canvas({ page, n }: { page: PageData; n: number }) {
   const donation = page.texts.filter(isDonation);
   const links = (LINKS[n] || []).map((l) => {
-    const t = page.texts.find((t) => t.size < 0.03 && t.y > 0.2 && plain(t).includes(l.match) && plain(t).length < 40);
+    const t = page.texts.find((t) => (l.title ? plain(t).includes(l.match) : t.size < 0.03 && t.y > 0.2 && plain(t).includes(l.match) && plain(t).length < 40));
     return t && { ...l, t };
   }).filter((l): l is NonNullable<typeof l> => Boolean(l));
   return (
@@ -33,7 +33,12 @@ function Canvas({ page, n }: { page: PageData; n: number }) {
       {(DECOR[n] || []).map((d, i) => <Decor key={i} d={d} />)}
       {page.texts.filter((t) => !isDonation(t)).map((t, i) => <TextBlock key={i} t={t} />)}
       {donation.length > 0 && <Donations blocks={donation} abs />}
-      {links.map(({ t, to }) => (
+      {links.map(({ t, to, title }) => title ? (
+        <a key={to} className="titlelink" href={`#${to}`} aria-label={`Vai a: ${plain(t)}`}
+          style={{ left: `${(t.x - 0.012) * 100}%`, top: `${(t.y - 0.006) * 100}%`, width: `${(t.w + 0.07) * 100}%`, height: `${(t.h + 0.012) * 100}%` }}>
+          <span className="titlelink__arrow" aria-hidden="true">→</span>
+        </a>
+      ) : (
         <a key={to} className="rowlink" href={`#${to}`} aria-label={`Vai a: ${plain(t)}`}
           style={{ top: `${(t.y - 0.016) * 100}%`, height: `${(t.h + 0.034) * 100}%` }}>
           <span className="rowlink__arrow" aria-hidden="true">→</span>
@@ -66,11 +71,11 @@ function Flow({ page }: { page: PageData }) {
   );
 }
 
-export default function Spread({ n, id }: { n: number; id?: string }) {
+export default function Spread({ n }: { n: number }) {
   const page = pages[n - 1]; const mobile = useMobile();
   const canvas = !mobile || KEEP_CANVAS_ON_MOBILE.includes(n);
   return (
-    <section className="spread" id={id} data-pdf-page={n} style={{ background: page.bg, ['--bg' as string]: page.bg }}>
+    <section className="spread" data-pdf-page={n} style={{ background: page.bg, ['--bg' as string]: page.bg }}>
       {canvas ? <Canvas page={page} n={n} /> : <Flow page={page} />}
     </section>
   );
