@@ -29,7 +29,7 @@ main { padding-top:var(--nav-h); min-height:80vh; }
 .tb { position:absolute; margin:0; font-size:calc(var(--fs) * 100cqw); line-height:1.32; white-space:pre-line; text-wrap:pretty; font-weight:400; }
 .tb strong { font-weight:700; } .tb--h { line-height:1.02; white-space:pre; letter-spacing:-.02em; } .tb--shadow { text-shadow:.04em .04em 0 #000; }
 .rowlink { position:absolute; left:6%; width:88%; display:block; border-radius:6px; transition:background .2s; } .rowlink:hover { background:rgba(20,20,18,.07); }
-.rowlink__arrow { position:absolute; left:63.5%; top:50%; transform:translateY(-50%); width:4.2cqw; height:4.2cqw; border:1px solid var(--ink); border-radius:50%; display:grid; place-items:center; font-size:2.6cqw; color:var(--ink); transition:transform .25s; }
+.rowlink__arrow { position:absolute; left:72%; top:50%; transform:translateY(-50%); width:4.2cqw; height:4.2cqw; border:1px solid var(--ink); border-radius:50%; display:grid; place-items:center; font-size:2.6cqw; color:var(--ink); transition:transform .25s; }
 .rowlink:hover .rowlink__arrow { transform:translateY(-50%) translateX(4px); }
 .titlelink { position:absolute; display:block; color:#fff; border-radius:6px; transition:background .2s; } .titlelink:hover { background:rgba(255,255,255,.1); }
 .titlelink__arrow { position:absolute; right:0; top:50%; transform:translateY(-50%); font-size:3.4cqw; line-height:1; transition:transform .25s; } .titlelink:hover .titlelink__arrow { transform:translateY(-50%) translateX(4px); }
