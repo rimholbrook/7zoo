@@ -27,7 +27,7 @@ function Canvas({ page, n }: { page: PageData; n: number }) {
     <div className="canvas" style={{ aspectRatio: `${PAGE_W} / ${PAGE_H}` }}>
       {page.rules.map((r, i) => (
         <i key={i} className="rule" style={{ left: `${r.x * 100}%`, top: `${r.y * 100}%`, background: r.color,
-          ...(r.w ? { width: `${r.w * 100}%`, height: '1px' } : { height: `${r.h * 100}%`, width: '1px' }) }} />
+          ...(r.w ? { width: `${r.w * 100}%`, height: '1px' } : { height: `${(r.h ?? 0) * 100}%`, width: '1px' }) }} />
       ))}
       {page.photos.map((p, i) => <Photo key={i} photo={p} abs />)}
       {(DECOR[n] || []).map((d, i) => <Decor key={i} d={d} />)}
