@@ -20,7 +20,7 @@ export default function Photo({ photo, abs = false, alt = 'Fotografia Associazio
     width: `${((ix1 - ix0) / fw) * 100}%`, height: `${((iy1 - iy0) / fh) * 100}%`,
   };
   return (
-    <button type="button" className={`photo${abs ? ' photo--abs' : ''}${round ? ' photo--round' : ''}`} style={style}
+    <button type="button" className={`photo${abs ? ' photo--abs' : ''}${round ? ' photo--round' : ''}${photo.src.endsWith('.png') ? ' photo--png' : ''}`} style={style}
       onClick={() => open(assetUrl(photo.src), alt)} aria-label={`Ingrandisci: ${alt}`}>
       <img src={assetUrl(photo.src)} alt={alt} loading="lazy" style={inner} draggable="false" />
     </button>
