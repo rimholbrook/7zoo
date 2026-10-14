@@ -11,8 +11,9 @@ import type { DecorItem, LinkItem, NavItem, SectionItem } from '../types';
 export const HOME_ID = 'home';
 
 export const SECTIONS: SectionItem[] = [
-  { id: 'home', pages: [1, 24, 25] },
-  { id: 'chi-siamo', pages: [2], parent: 'home' }, // la squadra
+  // Home: pagina nera + collage continuo + sezione conclusiva Contact Us / Grazie / donazioni (pagina 26)
+  { id: 'home', pages: [1, 24, 25, 26] },
+  { id: 'la-squadra', pages: [2], parent: 'home' },
   { id: 'agenda', pages: [3], parent: 'home' },
   { id: 'anima-delle-popolari', pages: [4, 5], parent: 'agenda' },
   { id: 'forza-della-seven', pages: [6, 7, 8], parent: 'agenda' }, // include "L'ispirazione"
@@ -26,16 +27,28 @@ export const SECTIONS: SectionItem[] = [
   { id: 'sport', pages: [16, 17, 18], parent: 'progetti' }, // sport + Inter/Nike/Milan + tornei
   { id: 'storie-degli-altri', pages: [19], parent: 'progetti' },
   { id: 'collaborazioni', pages: [20, 21, 22, 23], parent: 'progetti' },
-  { id: 'contact', pages: [26], parent: 'home' }, // pagina "Grazie"
 ];
 
-// Voci della sidebar (icona in alto a sinistra).
+// Nomi mostrati nel pulsante "Indietro" (e usati dalla sidebar).
+export const LABELS: Record<string, string> = {
+  home: 'Home', 'la-squadra': 'La squadra', agenda: 'La nostra agenda', 'anima-delle-popolari': 'L’anima delle popolari',
+  'forza-della-seven': 'La forza della Seven', progetti: 'I nostri progetti', casa: 'La “casa”', 'aiuto-allo-studio': 'Aiuto allo studio',
+  'progetto-patenti': 'Progetto patenti', 'musica-come-espressione': 'La musica come espressione', rap: 'Rap',
+  'supporto-famiglie': 'Supporto alle famiglie', sport: 'Crescere attraverso lo sport', 'storie-degli-altri': 'Le storie degli altri', collaborazioni: 'Collaborazioni',
+};
+
+// Sidebar: voci principali + tendina sotto "I nostri progetti".
+const item = (id: string): NavItem => ({ label: LABELS[id], href: `#${id}` });
 export const NAV: NavItem[] = [
-  { label: 'Home', href: '#home' },
-  { label: 'Chi siamo', href: '#chi-siamo' },
-  { label: 'La nostra agenda', href: '#agenda' },
-  { label: 'Contact Us', href: '#contact' },
+  item('home'),
+  item('la-squadra'),
+  item('anima-delle-popolari'),
+  item('forza-della-seven'),
+  { ...item('progetti'), children: ['casa', 'aiuto-allo-studio', 'progetto-patenti', 'musica-come-espressione', 'supporto-famiglie', 'sport', 'storie-degli-altri', 'collaborazioni'].map(item) },
 ];
+
+// Pagine che si agganciano senza alcuno spazio alla pagina successiva (collage unico e continuo).
+export const FLUSH = new Set<number>([24]);
 
 // Righe cliccabili di Agenda (pagina 3), indice progetti (pagina 9) e titolo Think Unlimited (pagina 13).
 // match = testo contenuto nel blocco della riga; to = id sezione.
@@ -60,7 +73,6 @@ export const LINKS: Record<number, LinkItem[]> = {
 
 // Elementi vettoriali del PDF non presenti come immagini (coordinate: centro, in frazioni della larghezza pagina).
 export const DECOR: Record<number, DecorItem[]> = {
-  1: [{ type: 'asterisk', cx: 0.114, cy: 0.09, s: 0.056, color: '#d9d9d6' }],
   13: [
     { type: 'asterisk', cx: 0.398, cy: 0.057, s: 0.06, color: '#7a45f5' },
     { type: 'arrow', cx: 0.92, cy: 0.047, s: 0.043, color: '#7a45f5' },
