@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import pagesJson from '../data/pages.json';
 import type { PageData } from '../types';
+import { pages } from '../lib/pages';
 import { LINKS, DECOR, KEEP_CANVAS_ON_MOBILE, PAGE_W, PAGE_H } from '../data/site';
 import { buildFlow, plain, isDonation } from '../lib/flow';
 import Photo from './Photo';
 import TextBlock, { Runs } from './TextBlock';
 import Decor from './Decor';
 import Donations from './Donations';
-
-const pages = pagesJson as unknown as PageData[];
 
 const useMobile = () => {
   const q = '(max-width: 760px)';
@@ -17,14 +15,17 @@ const useMobile = () => {
   return m;
 };
 
-function Canvas({ page, n }: { page: PageData; n: number }) {
+type Crop = [number, number]; // tratto verticale della pagina da mostrare (frazioni di altezza)
+
+function Canvas({ page, n, crop }: { page: PageData; n: number; crop: Crop }) {
   const donation = page.texts.filter(isDonation);
   const links = (LINKS[n] || []).map((l) => {
     const t = page.texts.find((t) => (l.title ? plain(t).includes(l.match) : t.size < 0.04 && t.y > 0.2 && plain(t).includes(l.match) && plain(t).length < 40));
     return t && { ...l, t };
   }).filter((l): l is NonNullable<typeof l> => Boolean(l));
   return (
-    <div className="canvas" style={{ aspectRatio: `${PAGE_W} / ${PAGE_H}` }}>
+    <div className="canvas" style={{ aspectRatio: `${PAGE_W} / ${PAGE_H * (crop[1] - crop[0])}` }}>
+     <div className="canvas__page" style={{ aspectRatio: `${PAGE_W} / ${PAGE_H}`, top: `calc(${(-crop[0] * PAGE_H) / PAGE_W} * 100cqw)` }}>
       {page.rules.map((r, i) => (
         <i key={i} className="rule" style={{ left: `${r.x * 100}%`, top: `${r.y * 100}%`, background: r.color,
           ...(r.w ? { width: `${r.w * 100}%`, height: '1px' } : { height: `${(r.h ?? 0) * 100}%`, width: '1px' }) }} />
@@ -44,6 +45,7 @@ function Canvas({ page, n }: { page: PageData; n: number }) {
           <span className="rowlink__arrow" aria-hidden="true">→</span>
         </a>
       ))}
+     </div>
     </div>
   );
 }
@@ -71,12 +73,12 @@ function Flow({ page }: { page: PageData }) {
   );
 }
 
-export default function Spread({ n }: { n: number }) {
+export default function Spread({ n, crop = [0, 1], join = false }: { n: number; crop?: Crop; join?: boolean }) {
   const page = pages[n - 1]; const mobile = useMobile();
   const canvas = !mobile || KEEP_CANVAS_ON_MOBILE.includes(n);
   return (
-    <section className="spread" data-pdf-page={n} style={{ background: page.bg, ['--bg' as string]: page.bg }}>
-      {canvas ? <Canvas page={page} n={n} /> : <Flow page={page} />}
+    <section className={`spread${join ? ' spread--join' : ''}`} data-pdf-page={n} style={{ background: page.bg, ['--bg' as string]: page.bg }}>
+      {canvas ? <Canvas page={page} n={n} crop={crop} /> : <Flow page={page} />}
     </section>
   );
 }
