@@ -21,8 +21,7 @@ export const SECTIONS: SectionItem[] = [
   { id: 'casa', pages: [10], parent: 'progetti' },
   { id: 'aiuto-allo-studio', pages: [11], parent: 'progetti' },
   { id: 'progetto-patenti', pages: [12], parent: 'progetti' },
-  { id: 'musica-come-espressione', pages: [13], parent: 'progetti' }, // Think Unlimited
-  { id: 'rap', pages: [14], parent: 'musica-come-espressione' },
+  { id: 'musica-come-espressione', pages: [13, 14], parent: 'progetti' }, // Think Unlimited + Rap, una sotto l'altra
   { id: 'supporto-famiglie', pages: [15], parent: 'progetti' },
   { id: 'sport', pages: [16, 17, 18], parent: 'progetti' }, // sport + Inter/Nike/Milan + tornei
   { id: 'storie-degli-altri', pages: [19], parent: 'progetti' },
@@ -33,7 +32,7 @@ export const SECTIONS: SectionItem[] = [
 export const LABELS: Record<string, string> = {
   home: 'Home', 'la-squadra': 'La squadra', agenda: 'La nostra agenda', 'anima-delle-popolari': 'L’anima delle popolari',
   'forza-della-seven': 'La forza della Seven', progetti: 'I nostri progetti', casa: 'La “casa”', 'aiuto-allo-studio': 'Aiuto allo studio',
-  'progetto-patenti': 'Progetto patenti', 'musica-come-espressione': 'La musica come espressione', rap: 'Rap',
+  'progetto-patenti': 'Progetto patenti', 'musica-come-espressione': 'La musica come espressione',
   'supporto-famiglie': 'Supporto alle famiglie', sport: 'Crescere attraverso lo sport', 'storie-degli-altri': 'Le storie degli altri', collaborazioni: 'Collaborazioni',
 };
 
@@ -50,7 +49,7 @@ export const NAV: NavItem[] = [
 // Pagine che si agganciano senza alcuno spazio alla pagina successiva (collage unico e continuo).
 export const FLUSH = new Set<number>([24]);
 
-// Righe cliccabili di Agenda (pagina 3), indice progetti (pagina 9) e titolo Think Unlimited (pagina 13).
+// Righe cliccabili di Agenda (pagina 3) e indice progetti (pagina 9).
 // match = testo contenuto nel blocco della riga; to = id sezione.
 export const LINKS: Record<number, LinkItem[]> = {
   3: [
@@ -68,7 +67,6 @@ export const LINKS: Record<number, LinkItem[]> = {
     { match: 'STORIE DEGLI ALTRI', to: 'storie-degli-altri' },
     { match: 'COLLABORAZIONI', to: 'collaborazioni' },
   ],
-  13: [{ match: 'THINK UNLIMITED', to: 'rap', title: true }],
 };
 
 // Elementi vettoriali del PDF non presenti come immagini (coordinate: centro, in frazioni della larghezza pagina).
