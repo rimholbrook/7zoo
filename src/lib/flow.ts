@@ -12,6 +12,8 @@ const isAvatar = (p: PhotoItem) => {
   const [x0, y0, x1, y1] = p.frame; const w = x1 - x0; const a = (w * PAGE_W) / ((y1 - y0) * PAGE_H);
   return w < 0.3 && a > 0.8 && a < 1.25 && p.src.endsWith('.jpg');
 };
+// Titoli (font League Gothic): testi grandi, oppure maiuscoli di dimensione media (voci elenco). I paragrafi in minuscolo restano testo.
+export const isTitle = (t: TextItem) => { const s = plain(t); return t.size >= 0.033 || (t.size >= 0.029 && !/[a-zàèéìòù]/.test(s) && s.length < 45); };
 export const isDonation = (t: TextItem) => /^(PER DONAZIONI|SPECIFICANDO)/.test(plain(t));
 
 // Ordine di lettura per il layout mobile: foto con didascalia diventano "persone", il resto segue l'asse verticale.
