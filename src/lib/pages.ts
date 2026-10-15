@@ -1,6 +1,6 @@
 import pagesJson from '../data/pages.json';
 import type { PageData, TextItem } from '../types';
-import { plain } from './flow';
+import { plain, isDonation } from './flow';
 
 // Numerazione editoriale del PDF (angolo in alto a destra): "01"…"21". Non tocca i numeri dei testi (indici di Agenda e Progetti).
 export const isPageNum = (t: TextItem) => /^\d{2}$/.test(plain(t).trim()) && t.x > 0.8 && t.y < 0.1 && t.size < 0.03;
@@ -11,7 +11,7 @@ export const pages: PageData[] = (pagesJson as unknown as PageData[]).map((p) =>
 export function bounds(n: number): [number, number] {
   const p = pages[n - 1]; const ys: number[] = [];
   p.photos.forEach((ph) => ys.push(ph.frame[1], ph.frame[3]));
-  p.texts.forEach((t) => ys.push(t.y, t.y + t.h));
+  p.texts.forEach((t) => ys.push(t.y, t.y + t.h + (isDonation(t) ? 0.09 : 0))); // i blocchi donazioni sono piu' alti di quanto misurato nel PDF
   p.rules.forEach((r) => ys.push(r.y, r.y + (r.h ?? 0)));
   return [Math.min(...ys), Math.max(...ys)];
 }
