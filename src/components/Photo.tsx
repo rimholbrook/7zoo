@@ -9,7 +9,7 @@ export default function Photo({ photo, abs = false, alt = 'Fotografia Associazio
   const open = useLightbox();
   const [fx0, fy0, fx1, fy1] = photo.frame; const [ix0, iy0, ix1, iy1] = photo.img;
   const fw = fx1 - fx0; const fh = fy1 - fy0;
-  const round = fw < 0.3 && photo.src.endsWith('.jpg') && Math.abs((fw * PAGE_W) / (fh * PAGE_H) - 1) < 0.25;
+  const round = photo.round ?? (fw < 0.3 && photo.src.endsWith(".jpg") && Math.abs((fw * PAGE_W) / (fh * PAGE_H) - 1) < 0.25);
   const tw = TWEAKS[photo.src] || {};
   const style: CSSProperties = abs
     ? { left: `${fx0 * 100}%`, top: `${fy0 * 100}%`, width: `${fw * 100}%`, height: `${fh * 100}%` }
@@ -22,7 +22,7 @@ export default function Photo({ photo, abs = false, alt = 'Fotografia Associazio
   return (
     <button type="button" className={`photo${abs ? ' photo--abs' : ''}${round ? ' photo--round' : ''}${photo.src.endsWith('.png') ? ' photo--png' : ''}`} style={style}
       onClick={() => open(assetUrl(photo.src), alt)} aria-label={`Ingrandisci: ${alt}`}>
-      <img src={assetUrl(photo.src)} alt={alt} loading="lazy" style={inner} draggable="false" />
+      <img src={assetUrl(photo.src)} alt={alt} loading="eager" decoding="async" style={inner} draggable="false" />
     </button>
   );
 }
