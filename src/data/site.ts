@@ -75,7 +75,6 @@ export const DECOR: Record<number, DecorItem[]> = {
     { type: 'asterisk', cx: 0.398, cy: 0.057, s: 0.06, color: '#7a45f5' },
     { type: 'arrow', cx: 0.92, cy: 0.047, s: 0.043, color: '#7a45f5' },
   ],
-  26: [{ type: 'asterisk', cx: 0.128, cy: 0.321, s: 0.06, color: '#ffffff' }],
 };
 
 // Ritocchi per singola immagine (chiave = nome file in public/assets).
